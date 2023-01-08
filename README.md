@@ -1,0 +1,3 @@
+### How to run
+
+Create a top level directory named `out`. Run `make sequential` to generate the sequential executable, and `make mpi` to generate the `mpi` executable. Run the sequential implementation using `./out/sequential`, and the `mpi` implementation by running `mpirun -np <NO OF MPI PROCESSES> out/mpi`, specifying the number of `mpi` processes. Change the current test loaded in the file `main.c`. For a way to implement custom tests, check out files `test.h` and `test.c` on each implementation.
