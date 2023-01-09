@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     // -------------------------------------
 
     // load test
-    test_input test = test_mnist(world_rank, world_size);
+    test_input test = test_5d_grid(world_rank, world_size);
 
     printf("[%d of %d] printing test\n", world_rank + 1, world_size);
     print_test(test);

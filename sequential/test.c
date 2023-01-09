@@ -123,11 +123,216 @@ test_input test_mnist() {
             fscanf(f, "%d,", &t);
             // discard first number (label)
             if (j != 0) {
-                X[i * d + j] = t * 1.0;
-                Y[i * d + j] = t * 1.0;
+                X[i * d + j - 1] = t * 1.0;
+                Y[i * d + j - 1] = t * 1.0;
             } 
         }
     }
+    fclose(f);
+
+    t.X = X;
+    t.Y = Y;
+
+    return t;
+}
+
+test_input test_2d_grid() {
+    test_input t;
+
+    char* filename = "./datasets/dataset2.txt";
+
+    int d = 2;
+    // we know the 5 nearest neighboors (including self)
+    int k = 5;
+    int n = 100;
+
+    t.d = d;
+    t.k = k;
+    t.n = n;
+    t.m = n;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    double* Y = (double*) malloc(n * d * sizeof(double));
+    if(Y == NULL) {
+        printf("error allocating Y array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
+            Y[i * d + j] = t * 1.0;
+        }
+    }
+
+    fclose(f);
+
+    t.X = X;
+    t.Y = Y;
+
+    return t;
+}
+
+test_input test_3d_grid() {
+    test_input t;
+
+    char* filename = "./datasets/dataset3.txt";
+
+    int d = 3;
+    // we know the 7 nearest neighboors (including self)
+    int k = 7;
+    int n = 1000;
+
+    t.d = d;
+    t.k = k;
+    t.n = n;
+    t.m = n;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    double* Y = (double*) malloc(n * d * sizeof(double));
+    if(Y == NULL) {
+        printf("error allocating Y array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
+            Y[i * d + j] = t * 1.0;
+        }
+    }
+
+    fclose(f);
+
+    t.X = X;
+    t.Y = Y;
+
+    return t;
+}
+
+test_input test_4d_grid() {
+    test_input t;
+
+    char* filename = "./datasets/dataset4.txt";
+
+    int d = 4;
+    // we know the 7 nearest neighboors (including self)
+    int k = 9;
+    int n = 10000;
+
+    t.d = d;
+    t.k = k;
+    t.n = n;
+    t.m = n;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    double* Y = (double*) malloc(n * d * sizeof(double));
+    if(Y == NULL) {
+        printf("error allocating Y array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
+            Y[i * d + j] = t * 1.0;
+        }
+    }
+
+    fclose(f);
+
+    t.X = X;
+    t.Y = Y;
+
+    return t;
+}
+
+test_input test_5d_grid() {
+    test_input t;
+
+    char* filename = "./datasets/dataset5.txt";
+
+    int d = 5;
+    // we know the 11 nearest neighboors (including self)
+    int k = 11;
+    int n = 10000;
+
+    t.d = d;
+    t.k = k;
+    t.n = n;
+    t.m = n;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    double* Y = (double*) malloc(n * d * sizeof(double));
+    if(Y == NULL) {
+        printf("error allocating Y array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
+            Y[i * d + j] = t * 1.0;
+        }
+    }
+
+    fclose(f);
 
     t.X = X;
     t.Y = Y;

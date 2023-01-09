@@ -193,8 +193,304 @@ test_input test_mnist(int pi, int p) {
             fscanf(f, "%d,", &t);
             // discard first number (label)
             if (j != 0) {
-                X[i * d + j] = t * 1.0;
+                X[i * d + j - 1] = t * 1.0;
             } 
+        }
+    }
+
+    // split it
+    if (n % p == 0) {
+        t.n = n / p;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        int start = t.n * t.d *  pi;
+        for (int i = 0; i < t.n * t.d; i++) {
+            t.X[i] = X[start + i];
+        } 
+    } else {
+        t.n = (n / p) + 1;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        if (pi == p - 1) {
+            // find end, fill with points on inf (DBL_MAX)
+            int start = t.n * t.d * pi;
+            int end = n * t.d;
+            for(int i = 0; i < (end - start); i++) {
+                t.X[i] = X[start + i]; 
+            } 
+            for(int i = (end - start); i < t.n * t.d; i++) {
+                t.X[i] = DBL_MAX;
+            }
+        } else {
+            int start = t.n * pi;
+            for (int i = 0; i < t.n * t.d; i++) {
+                t.X[i] = X[start + i];
+            } 
+        }
+    }
+
+    return t;
+}
+
+test_input test_2d_grid(int pi, int p) {
+    test_input t;
+
+    char* filename = "./datasets/dataset2.txt";
+
+    int d = 2;
+    // we know the 5 nearest neighboors (including self)
+    int k = 5;
+    int n = 100;
+
+    t.d = d;
+    t.k = k;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
+        }
+    }
+
+    // split it
+    if (n % p == 0) {
+        t.n = n / p;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        int start = t.n * t.d *  pi;
+        for (int i = 0; i < t.n * t.d; i++) {
+            t.X[i] = X[start + i];
+        } 
+    } else {
+        t.n = (n / p) + 1;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        if (pi == p - 1) {
+            // find end, fill with points on inf (DBL_MAX)
+            int start = t.n * t.d * pi;
+            int end = n * t.d;
+            for(int i = 0; i < (end - start); i++) {
+                t.X[i] = X[start + i]; 
+            } 
+            for(int i = (end - start); i < t.n * t.d; i++) {
+                t.X[i] = DBL_MAX;
+            }
+        } else {
+            int start = t.n * pi;
+            for (int i = 0; i < t.n * t.d; i++) {
+                t.X[i] = X[start + i];
+            } 
+        }
+    }
+
+    return t;
+}
+
+test_input test_3d_grid(int pi, int p) {
+    test_input t;
+
+    char* filename = "./datasets/dataset3.txt";
+
+    int d = 3;
+    // we know the 7 nearest neighboors (including self)
+    int k = 7;
+    int n = 1000;
+
+    t.d = d;
+    t.k = k;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
+        }
+    }
+
+    // split it
+    if (n % p == 0) {
+        t.n = n / p;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        int start = t.n * t.d *  pi;
+        for (int i = 0; i < t.n * t.d; i++) {
+            t.X[i] = X[start + i];
+        } 
+    } else {
+        t.n = (n / p) + 1;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        if (pi == p - 1) {
+            // find end, fill with points on inf (DBL_MAX)
+            int start = t.n * t.d * pi;
+            int end = n * t.d;
+            for(int i = 0; i < (end - start); i++) {
+                t.X[i] = X[start + i]; 
+            } 
+            for(int i = (end - start); i < t.n * t.d; i++) {
+                t.X[i] = DBL_MAX;
+            }
+        } else {
+            int start = t.n * pi;
+            for (int i = 0; i < t.n * t.d; i++) {
+                t.X[i] = X[start + i];
+            } 
+        }
+    }
+
+    return t;
+}
+
+test_input test_4d_grid(int pi, int p) {
+    test_input t;
+
+    char* filename = "./datasets/dataset4.txt";
+
+    int d = 4;
+    // we know the 9 nearest neighboors (including self)
+    int k = 9;
+    int n = 10000;
+
+    t.d = d;
+    t.k = k;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
+        }
+    }
+
+    // split it
+    if (n % p == 0) {
+        t.n = n / p;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        int start = t.n * t.d *  pi;
+        for (int i = 0; i < t.n * t.d; i++) {
+            t.X[i] = X[start + i];
+        } 
+    } else {
+        t.n = (n / p) + 1;
+        t.X = (double*) malloc(t.n * t.d * sizeof(double));
+        if(t.X == NULL) {
+            printf("error allocating X array\n");
+            exit(1);
+        } 
+        if (pi == p - 1) {
+            // find end, fill with points on inf (DBL_MAX)
+            int start = t.n * t.d * pi;
+            int end = n * t.d;
+            for(int i = 0; i < (end - start); i++) {
+                t.X[i] = X[start + i]; 
+            } 
+            for(int i = (end - start); i < t.n * t.d; i++) {
+                t.X[i] = DBL_MAX;
+            }
+        } else {
+            int start = t.n * pi;
+            for (int i = 0; i < t.n * t.d; i++) {
+                t.X[i] = X[start + i];
+            } 
+        }
+    }
+
+    return t;
+}
+
+test_input test_5d_grid(int pi, int p) {
+    test_input t;
+
+    char* filename = "./datasets/dataset5.txt";
+
+    int d = 5;
+    // we know the 11 nearest neighboors (including self)
+    int k = 11;
+    int n = 100000;
+
+    t.d = d;
+    t.k = k;
+
+    double* X = (double*) malloc(n * d * sizeof(double));
+    if(X == NULL) {
+        printf("error allocating X array\n");
+        exit(1);
+    }
+
+    // here read it, all at once
+    FILE *f = fopen(filename, "r");
+    if (f == NULL) {
+        printf("Error opening file\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < d; j++) {
+            int t;
+            fscanf(f, "%d,", &t);
+            X[i * d + j] = t * 1.0;
         }
     }
 

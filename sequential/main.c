@@ -5,7 +5,7 @@
 
 int main(int argc, char **argv) {
     // test setup
-    test_input test = test_mnist();
+    test_input test = test_5d_grid();
 
     // run test
     struct timeval te; 
